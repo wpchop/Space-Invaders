@@ -6,9 +6,12 @@ public class EvilLaser : MonoBehaviour {
 
     public Quaternion heading;
 
+    bool isThreat;
+
     // Use this for initialization
     void Start()
     {
+        isThreat = true;
         // do not passively decelerate 
         GetComponent<Rigidbody>().drag = 0;
 
@@ -17,8 +20,11 @@ public class EvilLaser : MonoBehaviour {
 
     private void OnCollisionEnter(Collision collision)
     {
+        if (!isThreat)
+        {
+            return;
+        }
         Collider collider = collision.collider;
-
 
         if (collider.CompareTag("Defense"))
         {
@@ -30,6 +36,14 @@ public class EvilLaser : MonoBehaviour {
         {
             Ship ship = collider.GetComponent<Ship>();
             ship.Die();
+        }
+
+        if (collider.CompareTag("Platform"))
+        {
+            isThreat = false;
+            GetComponent<Rigidbody>().velocity = new Vector3(0, 0, 0);
+            GetComponent<Rigidbody>().useGravity = true;
+            return;
         }
 
         Destroy(gameObject);

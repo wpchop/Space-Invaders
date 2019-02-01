@@ -11,6 +11,8 @@ public class Invader : MonoBehaviour {
 
     public GameObject evilLaser;
 
+    bool dying;
+
     // Use this for initialization
     void Start () {
         GameObject g = GameObject.Find("GlobalObject");
@@ -20,7 +22,11 @@ public class Invader : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (globalObj.isMovingLeft)
+        if (dying)
+        {
+            return;
+        }
+        if (globalObj.isMovingLeft)
         {
             GetComponent<Rigidbody>().velocity = -velocityVector;
         }
@@ -40,7 +46,11 @@ public class Invader : MonoBehaviour {
     {
         globalObj.score += pointValue;
         globalObj.invaderCount--;
-        Destroy(gameObject);
+        //Physics.gravity = new Vector3(0, -100.8f, 0);
+        GetComponent<Rigidbody>().useGravity = true;
+        //GetComponent<Rigidbody>().velocity = new Vector3(0, -10, 0);
+        dying = true;
+        //Destroy(gameObject);
     }
 
     void SpawnLaser()

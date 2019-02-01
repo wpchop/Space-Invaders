@@ -33,13 +33,15 @@ public class Ship : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (Input.GetAxisRaw("Horizontal") > 0)
+        if (Input.GetAxisRaw("Horizontal") > 0
+            && gameObject.transform.position.x < 7)
         {
             print("right");
             // Move ship to the right.
             GetComponent<Rigidbody>().velocity = velocityVector;
         }
-        else if (Input.GetAxisRaw("Horizontal") < 0)
+        else if (Input.GetAxisRaw("Horizontal") < 0 
+            && gameObject.transform.position.x > -7)
         {
             print("left");
             // Move ship to the left.
